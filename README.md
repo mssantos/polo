@@ -2,6 +2,8 @@
 
 Minimalist REST client for JSON APIs. Run it directly from your browser!
 
+https://github.com/readyforproduction/polo/assets/453736/e1514ab9-4a1f-43f8-b09f-b3e99e3556bf
+
 ## How to Use
 
 Please install Docker, then follow these steps:
