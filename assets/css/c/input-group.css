@@ -1,0 +1,10 @@
+.c-input-group {
+  position: relative;
+  display: grid;
+  align-items: center;
+
+  button {
+    position: absolute;
+    right: .75rem;
+  }
+}

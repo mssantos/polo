@@ -1,0 +1,26 @@
+.c-blockquote {
+  font-size: 0.875rem;
+  line-height: 1.7142857143;
+  width: 360px;
+
+  p {
+    background-color: #F7F7F7;
+    padding: 2rem;
+    text-wrap: pretty;
+    
+    &::before {
+      content: '\201C';
+    }
+
+    &::after {
+      content: '\201D';
+    }
+  }
+
+  footer {
+    margin-block-start: 0.75rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.7142857143;
+  }
+}

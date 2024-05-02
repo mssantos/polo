@@ -1,0 +1,194 @@
+<article class="c-request" data-component="request">
+  <.form
+    for={@form}
+    id="request-form"
+    class="c-request__form"
+    phx-change="change"
+    phx-submit="submit"
+    phx-target={@myself}
+    data-component="request-form"
+  >
+    <header class="c-request__header">
+      <select
+        id={@form[:method].id}
+        name={@form[:method].name}
+        class="c-input c-input--select"
+        aria-label="Request method"
+      >
+        <%= Phoenix.HTML.Form.options_for_select(
+          @methods,
+          @form[:method].value
+        ) %>
+      </select>
+
+      <div class="c-input-group c-input-group--trailing-button">
+        <input
+          type="text"
+          name={@form[:url].name}
+          id={@form[:url].id}
+          value={Phoenix.HTML.Form.normalize_value("text", @form[:url].value)}
+          class="c-input c-request__input"
+          placeholder="https://api.example.com"
+          aria-label="Request URL"
+          phx-debounce="blur"
+        />
+
+        <button
+          :if={@loading != true}
+          type="submit"
+          class="c-button c-request__button"
+          arial-label="Send request"
+        >
+          <.icon name="hero-arrow-right-circle" class="c-button__icon" />
+        </button>
+
+        <button
+          :if={@loading == true}
+          type="button"
+          class="c-button c-request__button"
+          phx-click="cancel"
+          aria-label="Cancel request"
+        >
+          <.icon name="hero-stop-circle" class="c-button__icon" />
+        </button>
+      </div>
+    </header>
+
+    <PoloWeb.ClientLive.Components.menu
+      custom_class="c-request__navigation"
+      selected={@tab}
+      actions={[
+        %{
+          name: "tab",
+          value: "request_parameters",
+          label: "Parameters"
+        },
+        %{
+          name: "tab",
+          value: "request_content_body",
+          label: "Content Body"
+        },
+        %{
+          name: "tab",
+          value: "request_headers",
+          label: "Headers"
+        }
+      ]}
+    />
+
+    <section class="c-request__content">
+      <fieldset
+        :if={@tab == "request_parameters"}
+        class="c-request__fieldset c-request__fieldset--with-embedded"
+        data-component="request-parameters"
+      >
+        <PoloWeb.ClientLive.Components.embedded_inputs
+          field={@form[:parameters]}
+          sort_param="request[parameters_sort][]"
+          drop_param="request[parameters_drop][]"
+        >
+          <:inputs :let={field}>
+            <input
+              type="text"
+              name={field[:name].name}
+              value={Phoenix.HTML.Form.normalize_value("text", field[:name].value)}
+              class="c-input"
+              placeholder="Name"
+              aria-label="Parameter Name"
+              phx-debounce="blur"
+            />
+
+            <input
+              type="text"
+              name={field[:value].name}
+              value={Phoenix.HTML.Form.normalize_value("text", field[:value].value)}
+              class="c-input"
+              placeholder="Value"
+              aria-label="Parameter Value"
+              phx-debounce="blur"
+            />
+          </:inputs>
+        </PoloWeb.ClientLive.Components.embedded_inputs>
+      </fieldset>
+
+      <fieldset
+        :if={@tab == "request_content_body"}
+        class="c-request__fieldset"
+        data-component="request-content-body"
+      >
+        <.inputs_for :let={body_f} field={@form[:body]}>
+          <div phx-feedback-for={body_f[:content].name}>
+            <div
+              id="request-editor"
+              class={[
+                "c-request__editor",
+                body_f[:content].errors != [] && "c-request__editor--invalid"
+              ]}
+              phx-hook="RequestEditor"
+            >
+              <input
+                type="hidden"
+                name={body_f[:content].name}
+                value={Phoenix.HTML.Form.normalize_value("text", body_f[:content].value) || "{}"}
+              />
+
+              <div id="request-editor-container" class="c-request__editor-container"></div>
+
+              <.error :for={{msg, _} <- body_f[:content].errors}>
+                <%= msg %>
+              </.error>
+            </div>
+          </div>
+        </.inputs_for>
+      </fieldset>
+
+      <fieldset
+        :if={@tab == "request_headers"}
+        class="c-request__fieldset c-request__fieldset--with-embedded"
+        data-component="request-headers"
+      >
+        <PoloWeb.ClientLive.Components.embedded_inputs
+          field={@form[:headers]}
+          sort_param="request[headers_sort][]"
+          drop_param="request[headers_drop][]"
+        >
+          <:inputs :let={field}>
+            <input
+              type="text"
+              name={field[:name].name}
+              value={Phoenix.HTML.Form.normalize_value("text", field[:name].value)}
+              class="c-input"
+              placeholder="Name"
+              aria-label="Header Label"
+              phx-debounce="blur"
+            />
+
+            <input
+              type="text"
+              name={field[:value].name}
+              value={Phoenix.HTML.Form.normalize_value("text", field[:value].value)}
+              class="c-input"
+              placeholder="Value"
+              aria-label="Header Value"
+              phx-debounce="blur"
+            />
+          </:inputs>
+        </PoloWeb.ClientLive.Components.embedded_inputs>
+      </fieldset>
+    </section>
+
+    <footer class="c-request__footer">
+      <PoloWeb.ClientLive.Components.menu
+        custom_class="c-request__actions"
+        actions={[
+          %{
+            name: "request_actions",
+            value: "copy_to_curl",
+            label: "Copy to cURL",
+            click_event: "not_implemented"
+          }
+        ]}
+      />
+    </footer>
+  </.form>
+</article>

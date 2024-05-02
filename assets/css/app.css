@@ -1,0 +1,36 @@
+@layer layout, components;
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import "l/full-page.css" layer(layout);
+@import "l/page-shell.css" layer(layout);
+
+@import "c/spinner.css" layer(components);
+@import "c/sidebar.css" layer(components);
+@import "c/menu.css" layer(components);
+@import "c/input.css" layer(components);
+@import "c/input-group.css" layer(components);
+@import "c/embedded-inputs.css" layer(components);
+@import "c/button.css" layer(components);
+@import "c/client.css" layer(components);
+@import "c/request.css" layer(components);
+@import "c/response.css" layer(components);
+@import "c/blockquote.css" layer(components);
+@import "c/placeholder.css" layer(components);
+
+/* This file is for your main application CSS */
+html {
+  background-color: #F7F7F7;
+  color: #3F3F46;
+  font-family: ui-sans-serif, system-ui, Roboto;
+  font-size: 100%;
+  line-height: 1.5;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

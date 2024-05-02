@@ -1,0 +1,15 @@
+<section class="c-client" data-component="client">
+  <.live_component
+    module={PoloWeb.ClientLive.Request}
+    id={@client_request_component_id}
+    request={@request}
+    loading={@response.loading}
+    methods={@request_methods}
+  />
+
+  <.live_component
+    module={PoloWeb.ClientLive.Response}
+    id={@client_response_component_id}
+    response={@response}
+  />
+</section>

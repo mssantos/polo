@@ -1,0 +1,21 @@
+.c-button {
+  display: inline-grid;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.7142857143;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &.c-button--tiny {
+    font-size: 0.75rem;
+    line-height: 2;
+  }
+
+  .c-button__icon {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+}

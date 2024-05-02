@@ -1,0 +1,40 @@
+.c-response {
+  .c-response__form {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    height: 100%;
+  }
+
+  .c-response__header {
+    height: 74px;
+    font-size: 0.875rem;
+    line-height: 1.7142857143;
+    padding: 1.5625rem 1rem;
+  }
+
+  .c-response__content {
+    padding: 1rem;
+    max-height: calc(100vh - 190px);
+
+    :is(.c-response__editor, .c-response__editor-container, .cm-editor) {
+      height: 100%;
+    }
+
+    .c-response__editor-container {
+      border: 1px solid #d1d5db;
+      overflow-y: auto;
+    }
+  }
+
+  .c-response__loading {
+    display: grid;
+    place-content: center;
+    height: 100%;
+    gap: 2rem;
+
+    p {
+      display: flex;
+      gap: 0.5rem;
+    }
+  }
+}

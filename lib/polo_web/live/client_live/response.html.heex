@@ -1,0 +1,82 @@
+<article class="c-response" data-component="response">
+  <.form
+    for={%{}}
+    id="response-form"
+    class="c-response__form"
+    phx-target={@myself}
+    phx-change="change"
+  >
+    <header class="c-response__header"></header>
+
+    <PoloWeb.ClientLive.Components.menu
+      custom_class="c-response__navigation"
+      selected={@tab}
+      actions={[
+        %{
+          name: "tab",
+          value: "response_preview",
+          label: "Preview"
+        }
+      ]}
+    />
+
+    <section class="c-response__content">
+      <div :if={!@response.loading and !@response.result} class="c-placeholder">
+        <blockquote class="c-blockquote" cite="https://fantasia.fandom.com/pt/wiki/Pol%C3%B4">
+          <p>Polô, Poló, or Polo is the god of winds and messenger of Tupã.
+            He is a great sprinter, essentially the fastest of the gods,
+            capable of covering vast distances, reaching almost half of the
+            speed of light. His speed during a full or new moon is grotesque.
+            He is always accompanied by blue and red macaws.</p>
+          <footer><cite>Tupi-Guarani mythology</cite></footer>
+        </blockquote>
+      </div>
+
+      <div :if={@response.loading} class="c-response__loading">
+        <p>
+          <.spinner class="c-spinner" />
+          <span>Loading...</span>
+        </p>
+
+        <button class="c-button c-button--tiny" type="button" phx-click="cancel">
+          Cancel Request
+        </button>
+      </div>
+
+      <div
+        :if={@response.result}
+        id="response-editor"
+        class="c-response__editor"
+        phx-hook="ResponseEditor"
+        data-content={@response.result.body}
+      >
+        <div
+          id="response-editor-container"
+          class="c-response__editor-container"
+          data-component="response-preview"
+        >
+        </div>
+      </div>
+    </section>
+
+    <footer class="c-response__footer">
+      <PoloWeb.ClientLive.Components.menu
+        custom_class="c-response__actions"
+        actions={[
+          %{
+            name: "response_actions",
+            value: "copy_to_clipboard",
+            label: "Copy to Clipboard",
+            click_event: "not_implemented"
+          },
+          %{
+            name: "response_actions",
+            value: "download",
+            label: "Download",
+            click_event: "not_implemented"
+          }
+        ]}
+      />
+    </footer>
+  </.form>
+</article>

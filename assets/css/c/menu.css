@@ -1,0 +1,23 @@
+.c-menu {
+  display: flex;
+  background-color: #F7F7F7;
+  padding-inline: 0.75rem;
+
+  li {
+    font-size: 0.75rem;
+    line-height: 2;
+    font-weight: 500;
+
+    > * {
+      padding: 0.5rem 1rem;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    &:hover,
+    &.is-selected {
+      background-color: #e5e7eb;
+      border-bottom: 1px solid #3F3F46;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+.c-input {
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  font-size: 0.875rem;
+  line-height: 1.7142857143;
+
+  &:focus {
+    --tw-ring-color: #0f172a;
+    border-color: var(--tw-ring-color);
+  }
+}
+
+.c-input--textarea {
+  resize: none;
+  height: 100%;
+
+  &:focus {
+    --tw-ring-color: #d1d5db;
+    border-color: #d1d5db;
+    outline-offset: 0;
+    box-shadow: none;
+  }
+}

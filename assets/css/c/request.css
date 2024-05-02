@@ -1,0 +1,55 @@
+.c-request {
+  .c-request__form {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    height: 100%;
+  }
+
+  .c-request__header {
+    height: 74px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .c-request__input {
+    width: 100%;
+    padding-right: 3rem;
+  }
+
+  .c-request__button {
+    color: #0F172A;
+  }
+
+  .c-request__content {
+    padding: 1rem;
+    max-height: calc(100vh - 190px);
+    overflow-y: auto;
+  }
+
+  .c-request__fieldset:not(.hidden) {
+    display: grid;
+    gap: 0.75rem;
+    height: 100%;
+  }
+
+  .c-request__fieldset--with-embedded {
+    align-content: flex-start;
+  }
+
+  .c-request__editor {
+    &.c-request__editor--invalid {
+      height: 95%;
+    }
+
+    :is(&, .c-request__editor-container, .cm-editor) {
+      height: 100%;
+    }
+
+    .cm-editor {
+      border: 1px solid #d1d5db;
+    }
+  }
+}
