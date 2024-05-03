@@ -1,4 +1,7 @@
 defmodule Polo.Client.HTTP.Finch do
+  @moduledoc """
+  Implementation of `Polo.Client.HTTP` using Finch.
+  """
   @behaviour Polo.Client.HTTP
 
   require Logger
@@ -90,6 +93,9 @@ defmodule Polo.Client.HTTP.Finch do
     |> process_response_headers()
   end
 
+  @doc """
+  Ensures response body is well formatted for CodeMirror.
+  """
   @spec process_response_body(%{required(any) => any()})
   defp process_response_body(%{body: body} = response) do
     case Jason.decode(body) do

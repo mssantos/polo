@@ -1,4 +1,8 @@
 defmodule Polo.Client.Request do
+  @moduledoc """
+  Representation of a request within the app.
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -67,6 +71,11 @@ defmodule Polo.Client.Request do
     cast_embed(changeset, :body)
   end
 
+  @doc """
+  Ensure request changesets always have at least one header.
+
+  Maybe it's not the best implementation, but it is what it works for now. :)
+  """
   @spec maybe_add_default_header(Ecto.Changeset.t()) :: Ecto.Changeset.t()
   defp maybe_add_default_header(changeset) do
     case Ecto.Changeset.get_change(changeset, :headers) do
@@ -78,6 +87,11 @@ defmodule Polo.Client.Request do
     end
   end
 
+  @doc """
+  Ensure request changesets always have at least one parameter.
+
+  Maybe it's not the best implementation, but it is what it works for now. :)
+  """
   @spec maybe_add_default_parameter(Ecto.Changeset.t()) :: Ecto.Changeset.t()
   defp maybe_add_default_parameter(changeset) do
     case Ecto.Changeset.get_change(changeset, :parameters) do

@@ -1,4 +1,7 @@
 defmodule Polo.Client.HTTP.Sandbox do
+  @moduledoc """
+  Implementation of `Polo.Client.HTTP` for tests.
+  """
   @behaviour Polo.Client.HTTP
 
   @impl Polo.Client.HTTP

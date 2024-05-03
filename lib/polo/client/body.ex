@@ -1,4 +1,9 @@
 defmodule Polo.Client.Body do
+  @moduledoc """
+  Representation of a content body of a request.
+
+  See `Polo.Client.Request` or `Polo.Client.Response` to understand how it's used.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

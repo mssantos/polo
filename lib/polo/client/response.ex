@@ -1,4 +1,7 @@
 defmodule Polo.Client.Response do
+  @moduledoc """
+  Representation of a response within the app.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

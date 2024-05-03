@@ -1,4 +1,9 @@
 defmodule Polo.Client.Header do
+  @moduledoc """
+  Representation of a request/response header within the application.
+
+  See `Polo.Client.Request` or `Polo.Client.Response` to understand how it's used.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

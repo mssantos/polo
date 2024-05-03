@@ -1,4 +1,10 @@
 defmodule Polo.Client.Parameter do
+  @moduledoc """
+  Representation of query parameters within the application.
+
+  See `Polo.Client.Request` to understand how it's used.
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 
