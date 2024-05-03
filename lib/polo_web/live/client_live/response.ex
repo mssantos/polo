@@ -1,4 +1,7 @@
 defmodule PoloWeb.ClientLive.Response do
+  @moduledoc """
+  LiveComponent with additional logic to handle the response block of the client.
+  """
   use PoloWeb, :live_component
 
   @default_tab "response_preview"

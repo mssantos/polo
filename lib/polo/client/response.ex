@@ -1,6 +1,16 @@
 defmodule Polo.Client.Response do
+  @moduledoc """
+  Representation of a response within the app.
+  """
   use Ecto.Schema
   import Ecto.Changeset
+
+  @type t :: %__MODULE__{
+          body: binary(),
+          status: integer(),
+          received_at: NaiveDateTime.t(),
+          headers: list(Polo.Client.Header.t())
+        }
 
   embedded_schema do
     field :body, :binary
@@ -10,6 +20,7 @@ defmodule Polo.Client.Response do
     embeds_many :headers, Polo.Client.Header
   end
 
+  @spec changeset(__MODULE__.t(), %{optional(any) => any}) :: Ecto.Changeset.t()
   def changeset(response, attrs \\ %{}) do
     response
     |> cast(attrs, [:body, :status])
