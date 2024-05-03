@@ -96,7 +96,8 @@ defmodule Polo.Client.HTTP.Finch do
   @doc """
   Ensures response body is well formatted for CodeMirror.
   """
-  @spec process_response_body(%{required(any) => any()}) :: %{required(any) => any()} | {:error, any()}
+  @spec process_response_body(%{required(any) => any()}) ::
+          %{required(any) => any()} | {:error, any()}
   defp process_response_body(%{body: body} = response) do
     case Jason.decode(body) do
       {:ok, result} ->
