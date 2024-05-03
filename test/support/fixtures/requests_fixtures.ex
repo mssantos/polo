@@ -1,4 +1,8 @@
 defmodule Polo.RequestsFixtures do
+  @moduledoc """
+  Helper functions for testing requests.
+  """
+
   def valid_request_method, do: Enum.random(Polo.Client.request_methods())
 
   def valid_request_attributes(attrs \\ %{}) do

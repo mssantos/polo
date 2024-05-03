@@ -28,7 +28,7 @@ defmodule Polo.Client do
   @spec new_response() :: Response.t()
   def new_response, do: struct(Response)
 
-  @spec change_request(Request.t(), %{optional(any) => any) :: Ecto.Changeset.t()
+  @spec change_request(Request.t(), %{optional(any) => any}) :: Ecto.Changeset.t()
   def change_request(%Request{} = request, attrs \\ %{}) do
     Request.changeset(request, attrs)
   end
@@ -37,7 +37,8 @@ defmodule Polo.Client do
   Since the application doesn't store requests, we use `Ecto.Changeset.apply_action/2` to create
   a request struct or to returno an invalid changeset.
   """
-  @spec create_request(Request.t(), %{optional(any) => any) :: {:ok, Request.t()} | {:error, Ecto.Changeset.t()}
+  @spec create_request(Request.t(), %{optional(any) => any}) ::
+          {:ok, Request.t()} | {:error, Ecto.Changeset.t()}
   def create_request(%Request{} = request, attrs \\ %{}) do
     request
     |> change_request(attrs)
@@ -60,7 +61,7 @@ defmodule Polo.Client do
     end
   end
 
-  @spec change_response(Request.t(), %{optional(any) => any) :: Ecto.Changeset.t()
+  @spec change_response(Request.t(), %{optional(any) => any}) :: Ecto.Changeset.t()
   def change_response(%Response{} = response, attrs \\ %{}) do
     Response.changeset(response, attrs)
   end
@@ -69,7 +70,8 @@ defmodule Polo.Client do
   Since the application doesn't store responses, we use `Ecto.Changeset.apply_action/2` to create
   a request struct or to returno an invalid changeset.
   """
-  @spec create_response(Response.t(), %{optional(any) => any) :: {:ok, Response.t()} | {:error, Ecto.Changeset.t()}
+  @spec create_response(Response.t(), %{optional(any) => any}) ::
+          {:ok, Response.t()} | {:error, Ecto.Changeset.t()}
   def create_response(%Response{} = response, attrs) do
     response
     |> change_response(attrs)
@@ -85,6 +87,6 @@ defmodule Polo.Client do
   @doc """
   Delegates the call to reset an embed changeset to `Polo.Client.Response.reset_embed/2`.
   """
-  @spec reset_request_embed(Ecto.Changeset.t, atom()) :: Ecto.Changeset.t()
+  @spec reset_request_embed(Ecto.Changeset.t(), atom()) :: Ecto.Changeset.t()
   defdelegate reset_request_embed(changeset, embed), to: Request, as: :reset_embed
 end

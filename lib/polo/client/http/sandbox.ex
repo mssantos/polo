@@ -17,7 +17,7 @@ defmodule Polo.Client.HTTP.Sandbox do
     {:error, "Internal Server Error"}
   end
 
-  defp get_sample_body() do
+  defp get_sample_body do
     %{content: %{test: "sandbox"}} |> Jason.encode!(pretty: true)
   end
 end

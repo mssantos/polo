@@ -7,13 +7,13 @@ defmodule Polo.Client.Request do
   import Ecto.Changeset
 
   @type t :: %__MODULE__{
-    method: atom(),
-    url: String.t(),
-    sent_at: NaiveDateTime.t(),
-    headers: list(Polo.Client.Header.t()),
-    parameters: list(Polo.Client.Parameter.t()),
-    body: Polo.Client.Body.t()
-  }
+          method: atom(),
+          url: String.t(),
+          sent_at: NaiveDateTime.t(),
+          headers: list(Polo.Client.Header.t()),
+          parameters: list(Polo.Client.Parameter.t()),
+          body: Polo.Client.Body.t()
+        }
 
   @valid_methods [:get, :post, :put, :patch, :delete, :options, :head]
 
@@ -27,7 +27,7 @@ defmodule Polo.Client.Request do
     embeds_one :body, Polo.Client.Body, on_replace: :delete
   end
 
-  @spec changeset(__MODULE__.t, %{optional(any) => any}) :: Ecto.Changeset.t()
+  @spec changeset(__MODULE__.t(), %{optional(any) => any}) :: Ecto.Changeset.t()
   def changeset(request, attrs \\ %{}) do
     request
     |> cast(attrs, [:method, :url])
