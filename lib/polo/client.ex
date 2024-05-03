@@ -61,7 +61,7 @@ defmodule Polo.Client do
     end
   end
 
-  @spec change_response(Request.t(), %{optional(any) => any}) :: Ecto.Changeset.t()
+  @spec change_response(Response.t(), %{optional(any) => any}) :: Ecto.Changeset.t()
   def change_response(%Response{} = response, attrs \\ %{}) do
     Response.changeset(response, attrs)
   end

@@ -55,7 +55,7 @@ defmodule Polo.Client.HTTP.Finch do
   @spec prepare_headers([]) :: []
   defp prepare_headers([]), do: []
 
-  @spec prepare_headers(list(Polo.Response.Header.t())) :: []
+  @spec prepare_headers(list(Polo.Client.Header.t())) :: []
   defp prepare_headers(headers) do
     headers
     |> Enum.filter(fn header -> header.name != nil or header.value != nil end)
@@ -76,13 +76,13 @@ defmodule Polo.Client.HTTP.Finch do
     |> URI.encode_query()
   end
 
-  @spec prepare_body(nil) :: ""
+  @spec prepare_body(nil) :: String.t()
   defp prepare_body(nil), do: ""
 
   @spec prepare_body(Polo.Client.Body.t()) :: binary()
   defp prepare_body(body), do: body.content
 
-  @spec prepare_url_with_parameters(%{required(any) => any()}) :: String.t()
+  @spec prepare_url_with_parameters(%{required(any) => any()}) :: %{required(any) => any()}
   defp prepare_url_with_parameters(%{url: url, parameters: parameters} = request_data) do
     Map.put(request_data, :url_with_parameters, %URI{url | query: parameters} |> URI.to_string())
   end
@@ -96,7 +96,7 @@ defmodule Polo.Client.HTTP.Finch do
   @doc """
   Ensures response body is well formatted for CodeMirror.
   """
-  @spec process_response_body(%{required(any) => any()})
+  @spec process_response_body(%{required(any) => any()}) :: %{required(any) => any()} | {:error, any()}
   defp process_response_body(%{body: body} = response) do
     case Jason.decode(body) do
       {:ok, result} ->
