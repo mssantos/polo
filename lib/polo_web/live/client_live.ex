@@ -1,4 +1,7 @@
 defmodule PoloWeb.ClientLive do
+  @moduledoc """
+  LiveView to handle interactions when sending requests.
+  """
   alias Phoenix.LiveView.AsyncResult
   use PoloWeb, :live_view
 

@@ -1,4 +1,7 @@
 defmodule PoloWeb.ClientLive.Request do
+  @moduledoc """
+  LiveComponent with additional logic to handle the request block of the client.
+  """
   use PoloWeb, :live_component
 
   alias Polo.Client
