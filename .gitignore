@@ -37,3 +37,7 @@ npm-debug.log
 
 /config/*.secret.exs
 .elixir_ls/
+
+# Ignore all collections but the polo ones
+/priv/collections/**/
+!/priv/collections/polo/

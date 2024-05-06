@@ -26,11 +26,6 @@ defmodule PoloWeb.ClientLive.Request do
     assign(socket, :tab, tab)
   end
 
-  # @doc """
-  # We don't need to assign anything if form already exists.
-  # """
-  def clear_form(%{assigns: %{form: _form}} = socket), do: socket
-
   def clear_form(%{assigns: %{request: request}} = socket) do
     changeset = Client.change_request(request)
 
@@ -46,7 +41,7 @@ defmodule PoloWeb.ClientLive.Request do
         %{"request" => request_params, "tab" => tab},
         %{assigns: %{request: request}} = socket
       ) do
-    request_params = merge_params(socket, request_params)
+    request_params = merge_form_params(socket, request_params)
 
     changeset =
       request
@@ -66,25 +61,24 @@ defmodule PoloWeb.ClientLive.Request do
         %{"request" => request_params},
         %{assigns: %{request: request}} = socket
       ) do
-    request_params = merge_params(socket, request_params)
+    request_params = merge_form_params(socket, request_params)
+    changeset = Client.change_request(request, request_params)
+    socket = assign_form(socket, changeset)
 
     case Client.create_request(request, request_params) do
       {:ok, request} ->
         send(self(), {:request_submitted, request})
 
-        # save last valid state of form
-        changeset = Client.change_request(request, request_params)
+        {:noreply, socket}
 
-        {:noreply, assign_form(socket, changeset)}
-
-      {:error, changeset} ->
-        {:noreply, assign_form(socket, changeset)}
+      {:error, error_changeset} ->
+        {:noreply, assign_form(socket, error_changeset)}
     end
   end
 
-  defp merge_params(socket, overrides) do
+  defp merge_form_params(%{assigns: %{form: %{params: form_params}}} = _socket, overrides) do
     %{}
-    |> Map.merge(socket.assigns.form.params)
+    |> Map.merge(form_params)
     |> Map.merge(overrides)
   end
 end

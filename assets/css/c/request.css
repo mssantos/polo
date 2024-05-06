@@ -52,4 +52,19 @@
       border: 1px solid #d1d5db;
     }
   }
+
+  .c-request__docs {
+    padding-block: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    height: 100%;
+    overflow-y: auto;
+    font-size: 0.875rem;
+    line-height: 1.75;
+
+    :is(h1, h2, h3, h4, h5, h6, strong, b) {
+      font-weight: 700;
+    }
+  }
 }

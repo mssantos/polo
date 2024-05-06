@@ -14,7 +14,32 @@ defmodule Polo.Client do
   choices.
   """
 
-  alias Polo.Client.{HTTP, Request, Response}
+  alias Polo.Client.{HTTP, Parser, Request, Response}
+
+  use NimblePublisher,
+    build: Request,
+    from: Application.app_dir(:polo, "priv/collections/**/*.md"),
+    as: :requests,
+    parser: Parser
+
+  @doc false
+  def all_requests(), do: @requests
+
+  @doc """
+  Get requests from id.
+  """
+  @spec get_request(String.t()) :: Request.t() | nil
+  def get_request(request_id) do
+    Enum.find(all_requests(), &(&1.id == request_id))
+  end
+
+  @doc """
+  Group requests by collection.
+  """
+  @spec requests_by_collection() :: %{required(String.t()) => list(Request.t())}
+  def requests_by_collection do
+    Enum.group_by(all_requests(), fn request -> request.collection_name end)
+  end
 
   @doc """
   Prevent direct access to internal structures from outside the context.

@@ -1,6 +1,24 @@
 <.flash_group flash={@flash} />
 
-<div class="l-full-page">
+<div class="l-full-page l-page-shell">
+  <aside class="c-sidebar">
+    <%= for {collection, requests} <- @collections do %>
+      <strong class={["c-sidebar__heading", @collection_selected == collection && "is-selected"]}>
+        <%= collection %>
+      </strong>
+
+      <%= for request <- requests do %>
+        <.link
+          class={["c-sidebar__link", @request_selected == request.id && "is-selected"]}
+          navigate={"/#{request.id}"}
+          title={request.title}
+        >
+          <%= request.title %>
+        </.link>
+      <% end %>
+    <% end %>
+  </aside>
+
   <main>
     <%= @inner_content %>
   </main>
