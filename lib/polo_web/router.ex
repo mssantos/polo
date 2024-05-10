@@ -18,6 +18,7 @@ defmodule PoloWeb.Router do
     pipe_through :browser
 
     live "/", ClientLive
+    live "/:request_id", ClientLive
   end
 
   # Other scopes may use custom stacks.

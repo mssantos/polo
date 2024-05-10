@@ -72,6 +72,11 @@
           name: "tab",
           value: "request_headers",
           label: "Headers"
+        },
+        %{
+          name: "tab",
+          value: "request_docs",
+          label: "Documentation"
         }
       ]}
     />
@@ -82,16 +87,14 @@
         class="c-request__fieldset c-request__fieldset--with-embedded"
         data-component="request-parameters"
       >
-        <PoloWeb.ClientLive.Components.embedded_inputs
-          field={@form[:parameters]}
-          sort_param="request[parameters_sort][]"
-          drop_param="request[parameters_drop][]"
-        >
-          <:inputs :let={field}>
+        <.inputs_for :let={nested_field} field={@form[:parameters]}>
+          <div class="c-embedded-inputs">
+            <input type="hidden" name="request[parameters_sort][]" value={nested_field.index} />
+
             <input
               type="text"
-              name={field[:name].name}
-              value={Phoenix.HTML.Form.normalize_value("text", field[:name].value)}
+              name={nested_field[:name].name}
+              value={Phoenix.HTML.Form.normalize_value("text", nested_field[:name].value)}
               class="c-input"
               placeholder="Name"
               aria-label="Parameter Name"
@@ -100,15 +103,34 @@
 
             <input
               type="text"
-              name={field[:value].name}
-              value={Phoenix.HTML.Form.normalize_value("text", field[:value].value)}
+              name={nested_field[:value].name}
+              value={Phoenix.HTML.Form.normalize_value("text", nested_field[:value].value)}
               class="c-input"
               placeholder="Value"
               aria-label="Parameter Value"
               phx-debounce="blur"
             />
-          </:inputs>
-        </PoloWeb.ClientLive.Components.embedded_inputs>
+
+            <label class="c-embedded-inputs__remove">
+              <.icon name="hero-trash" />
+              <input
+                disabled={nested_field.index === 0}
+                type="checkbox"
+                name="request[parameters_drop][]"
+                value={nested_field.index}
+                aria-label="Remove"
+              />
+            </label>
+          </div>
+
+          <input type="hidden" name="request[parameters_drop][]" />
+        </.inputs_for>
+
+        <label class="c-embedded-inputs__add">
+          <input type="checkbox" name="request[parameters_sort][]" />
+          <.icon name="hero-plus-circle" />
+          <span>Add new value</span>
+        </label>
       </fieldset>
 
       <fieldset
@@ -147,34 +169,61 @@
         class="c-request__fieldset c-request__fieldset--with-embedded"
         data-component="request-headers"
       >
-        <PoloWeb.ClientLive.Components.embedded_inputs
-          field={@form[:headers]}
-          sort_param="request[headers_sort][]"
-          drop_param="request[headers_drop][]"
-        >
-          <:inputs :let={field}>
+        <.inputs_for :let={nested_field} field={@form[:headers]}>
+          <div class="c-embedded-inputs">
+            <input type="hidden" name="request[headers_sort][]" value={nested_field.index} />
+
             <input
               type="text"
-              name={field[:name].name}
-              value={Phoenix.HTML.Form.normalize_value("text", field[:name].value)}
+              name={nested_field[:name].name}
+              value={Phoenix.HTML.Form.normalize_value("text", nested_field[:name].value)}
               class="c-input"
               placeholder="Name"
-              aria-label="Header Label"
+              aria-label="Header Name"
               phx-debounce="blur"
             />
 
             <input
               type="text"
-              name={field[:value].name}
-              value={Phoenix.HTML.Form.normalize_value("text", field[:value].value)}
+              name={nested_field[:value].name}
+              value={Phoenix.HTML.Form.normalize_value("text", nested_field[:value].value)}
               class="c-input"
               placeholder="Value"
               aria-label="Header Value"
               phx-debounce="blur"
             />
-          </:inputs>
-        </PoloWeb.ClientLive.Components.embedded_inputs>
+
+            <label class="c-embedded-inputs__remove">
+              <.icon name="hero-trash" />
+              <input
+                disabled={nested_field.index === 0}
+                type="checkbox"
+                name="request[headers_drop][]"
+                value={nested_field.index}
+                aria-label="Remove"
+              />
+            </label>
+          </div>
+
+          <input type="hidden" name="request[headers_drop][]" />
+        </.inputs_for>
+
+        <label class="c-embedded-inputs__add">
+          <input type="checkbox" name="request[headers_sort][]" />
+          <.icon name="hero-plus-circle" />
+          <span>Add new value</span>
+        </label>
       </fieldset>
+
+      <div :if={@tab == "request_docs"} class="c-request__fieldset" data-component="request-docs">
+        <section :if={@request.documentation} class="c-request__docs">
+          <%= raw(@request.documentation) %>
+        </section>
+
+        <p :if={!@request.documentation} class="c-request__docs">
+          There's no documentation available for this request.
+        </p>
+      </div>
     </section>
 
     <footer class="c-request__footer">

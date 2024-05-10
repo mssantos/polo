@@ -8,12 +8,52 @@ defmodule PoloWeb.ClientLive do
   alias Polo.Client
 
   def mount(_params, _session, socket) do
-    {:ok,
+    {:ok, socket}
+  end
+
+  def handle_params(
+        %{"request_id" => request_id},
+        _uri,
+        socket
+      ) do
+    case Client.get_request(request_id) do
+      nil ->
+        {:noreply,
+         socket
+         |> put_flash(:error, "Request not found.")
+         |> assign_client_request_component_id()
+         |> assign_client_response_component_id()
+         |> assign_collections()
+         |> assign_request()
+         |> assign_request_methods()
+         |> assign_collection_selected()
+         |> assign_request_selected()
+         |> clear_response()}
+
+      request ->
+        {:noreply,
+         socket
+         |> assign_client_request_component_id()
+         |> assign_client_response_component_id()
+         |> assign_collections()
+         |> assign_request(request)
+         |> assign_request_methods()
+         |> assign_collection_selected()
+         |> assign_request_selected(request_id)
+         |> clear_response()}
+    end
+  end
+
+  def handle_params(_params, _uri, socket) do
+    {:noreply,
      socket
      |> assign_client_request_component_id()
      |> assign_client_response_component_id()
+     |> assign_collections()
      |> assign_request()
      |> assign_request_methods()
+     |> assign_collection_selected()
+     |> assign_request_selected()
      |> clear_response()}
   end
 
@@ -23,6 +63,22 @@ defmodule PoloWeb.ClientLive do
 
   def assign_client_response_component_id(socket) do
     assign(socket, :client_response_component_id, "client-response-component")
+  end
+
+  def assign_collection_selected(%{assigns: %{request: request}} = socket) do
+    assign(socket, :collection_selected, request.collection_name)
+  end
+
+  def assign_collection_selected(socket) do
+    assign(socket, :collection_selected, nil)
+  end
+
+  def assign_request_selected(socket, request_selected \\ nil) do
+    assign(socket, :request_selected, request_selected)
+  end
+
+  def assign_collections(socket) do
+    assign(socket, :collections, Client.requests_by_collection())
   end
 
   def assign_request(socket, request \\ Client.new_request()) do

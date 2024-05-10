@@ -1,4 +1,39 @@
 .c-sidebar {
   background-color: #374151;
   color: #FFFFFF;
+  padding: 1rem;
+  overflow-y: auto;
+
+  & > * {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    &.is-selected {
+      color: #6ee7b7;
+    }
+  }
+
+  .c-sidebar__heading {
+    font-size: 0.75rem;
+    line-height: 2;
+    text-transform: uppercase;
+    letter-spacing: -0.025rem;
+  }
+
+  .c-sidebar__link {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    padding-inline-start: 1rem;
+
+    &.is-selected {
+      color: #6ee7b7;
+    }
+
+    & + & {
+      margin-block-start: 0.5rem;
+    }
+  }
+
 }
