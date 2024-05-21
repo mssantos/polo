@@ -89,8 +89,12 @@ defmodule PoloWeb.ClientLive do
     assign(socket, :request_methods, Client.request_methods())
   end
 
+  def clear_response(%{assigns: %{response: response}} = socket) do
+    assign_response(socket, AsyncResult.ok(response, nil))
+  end
+
   def clear_response(socket) do
-    assign_response(socket, %AsyncResult{})
+    assign_response(socket, AsyncResult.ok(nil))
   end
 
   def assign_response(socket, response) do
@@ -118,7 +122,7 @@ defmodule PoloWeb.ClientLive do
   end
 
   def handle_async(:request, {:ok, {:ok, response}}, socket) do
-    socket = assign_response(socket, AsyncResult.ok(response))
+    socket = assign_response(socket, AsyncResult.ok(socket.assigns.response, response))
 
     {:noreply, socket}
   end

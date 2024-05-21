@@ -7,14 +7,6 @@
     background-color: #F7F7F7;
     padding: 2rem;
     text-wrap: pretty;
-    
-    &::before {
-      content: '\201C';
-    }
-
-    &::after {
-      content: '\201D';
-    }
   }
 
   footer {
