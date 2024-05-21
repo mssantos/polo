@@ -21,41 +21,46 @@
     />
 
     <section class="c-response__content">
-      <div :if={!@response.loading and !@response.result} class="c-placeholder">
-        <blockquote class="c-blockquote" cite="https://fantasia.fandom.com/pt/wiki/Pol%C3%B4">
-          <p>Polô, Poló, or Polo is the god of winds and messenger of Tupã.
-            He is a great sprinter, essentially the fastest of the gods,
-            capable of covering vast distances, reaching almost half of the
-            speed of light. He is always accompanied by blue and red macaws.</p>
-          <footer><cite>Tupi-Guarani mythology</cite></footer>
-        </blockquote>
-      </div>
+      <.async_result :let={response} assign={@response}>
+        <:loading>
+          <div class="c-response__loading">
+            <p>
+              <.spinner class="c-spinner" />
+              <span>Loading...</span>
+            </p>
 
-      <div :if={@response.loading} class="c-response__loading">
-        <p>
-          <.spinner class="c-spinner" />
-          <span>Loading...</span>
-        </p>
+            <button class="c-button c-button--tiny" type="button" phx-click="cancel">
+              Cancel Request
+            </button>
+          </div>
+        </:loading>
 
-        <button class="c-button c-button--tiny" type="button" phx-click="cancel">
-          Cancel Request
-        </button>
-      </div>
+        <:failed :let={_failure}>There was an error in your request.</:failed>
 
-      <div
-        :if={@response.result}
-        id="response-editor"
-        class="c-response__editor"
-        phx-hook="ResponseEditor"
-        data-content={@response.result.body}
-      >
-        <div
-          id="response-editor-container"
-          class="c-response__editor-container"
-          data-component="response-preview"
-        >
-        </div>
-      </div>
+        <%= if response do %>
+          <div
+            id="response-editor"
+            class="c-response__editor"
+            phx-hook="ResponseEditor"
+            data-content={response.body}
+          >
+            <div
+              id="response-editor-container"
+              class="c-response__editor-container"
+              data-component="response-preview"
+            >
+            </div>
+          </div>
+        <% else %>
+          <div class="c-placeholder">
+            <blockquote class="c-blockquote" cite="https://fantasia.fandom.com/pt/wiki/Pol%C3%B4">
+              <p>
+                The project is named to honor Polo, the God of the Winds and Messenger of Tupã in Tupi-Guarani mythology.
+              </p>
+            </blockquote>
+          </div>
+        <% end %>
+      </.async_result>
     </section>
 
     <footer class="c-response__footer">
