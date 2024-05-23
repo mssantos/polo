@@ -7,54 +7,37 @@ defmodule PoloWeb.ClientLive do
 
   alias Polo.Client
 
-  def mount(_params, _session, socket) do
-    {:ok, socket}
-  end
-
-  def handle_params(
-        %{"request_id" => request_id},
-        _uri,
-        socket
-      ) do
+  def mount(%{"request_id" => request_id}, _uri, socket) do
     case Client.get_request(request_id) do
       nil ->
-        {:noreply,
-         socket
-         |> put_flash(:error, "Request not found.")
-         |> assign_client_request_component_id()
-         |> assign_client_response_component_id()
-         |> assign_collections()
-         |> assign_request()
-         |> assign_request_methods()
-         |> assign_collection_selected()
-         |> assign_request_selected()
-         |> clear_response()}
+        socket =
+          socket
+          |> assign_initial_data()
+          |> put_flash(:error, "Request not found.")
+
+        {:ok, socket}
 
       request ->
-        {:noreply,
-         socket
-         |> assign_client_request_component_id()
-         |> assign_client_response_component_id()
-         |> assign_collections()
-         |> assign_request(request)
-         |> assign_request_methods()
-         |> assign_collection_selected()
-         |> assign_request_selected(request_id)
-         |> clear_response()}
+        socket = assign_initial_data(socket, request)
+
+        {:ok, socket}
     end
   end
 
-  def handle_params(_params, _uri, socket) do
-    {:noreply,
-     socket
-     |> assign_client_request_component_id()
-     |> assign_client_response_component_id()
-     |> assign_collections()
-     |> assign_request()
-     |> assign_request_methods()
-     |> assign_collection_selected()
-     |> assign_request_selected()
-     |> clear_response()}
+  def mount(_params, _session, socket) do
+    {:ok, assign_initial_data(socket)}
+  end
+
+  defp assign_initial_data(socket, request \\ Client.new_request()) do
+    socket
+    |> assign_client_request_component_id()
+    |> assign_client_response_component_id()
+    |> assign_collections()
+    |> assign_request(request)
+    |> assign_request_methods()
+    |> assign_collection_selected()
+    |> assign_request_selected(request.id)
+    |> clear_response()
   end
 
   def assign_client_request_component_id(socket) do
@@ -81,16 +64,12 @@ defmodule PoloWeb.ClientLive do
     assign(socket, :collections, Client.requests_by_collection())
   end
 
-  def assign_request(socket, request \\ Client.new_request()) do
+  def assign_request(socket, request) do
     assign(socket, :request, request)
   end
 
   def assign_request_methods(socket) do
     assign(socket, :request_methods, Client.request_methods())
-  end
-
-  def clear_response(%{assigns: %{response: response}} = socket) do
-    assign_response(socket, AsyncResult.ok(response, nil))
   end
 
   def clear_response(socket) do
