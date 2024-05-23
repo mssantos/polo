@@ -7,10 +7,6 @@
 # General application configuration
 import Config
 
-config :polo,
-  ecto_repos: [Polo.Repo],
-  generators: [timestamp_type: :utc_datetime]
-
 # Configures the endpoint
 config :polo, PoloWeb.Endpoint,
   url: [host: "localhost"],

@@ -18,8 +18,6 @@ defmodule Polo.DataCase do
 
   using do
     quote do
-      alias Polo.Repo
-
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
@@ -28,16 +26,7 @@ defmodule Polo.DataCase do
   end
 
   setup tags do
-    Polo.DataCase.setup_sandbox(tags)
     :ok
-  end
-
-  @doc """
-  Sets up the sandbox based on the test tags.
-  """
-  def setup_sandbox(tags) do
-    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Polo.Repo, shared: not tags[:async])
-    on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
   end
 
   @doc """
