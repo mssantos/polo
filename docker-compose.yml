@@ -1,21 +1,9 @@
 version: '3.9'
 services:
-  db:
-    image: postgres
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: polo
-      POSTGRES_PASSWORD: polo
-      POSTGRES_DB: polo_db
-
   app:
     build: .
     ports:
       - "4000:4000"
     environment:
       MIX_ENV: prod
-      DATABASE_URL: ecto://polo:polo@db/polo_db
       SECRET_KEY_BASE: yXW0ihG2Hxg3esEvWdfeBbfuMfMJxkup291vGnH4kY3GjYRNiI1u6NraKpSztDw7
-    depends_on:
-      - db

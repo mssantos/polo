@@ -9,7 +9,6 @@ defmodule Polo.Application do
   def start(_type, _args) do
     children = [
       PoloWeb.Telemetry,
-      Polo.Repo,
       {DNSCluster, query: Application.get_env(:polo, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Polo.PubSub},
       # Start the Finch HTTP client for sending emails
