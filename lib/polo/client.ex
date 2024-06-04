@@ -101,6 +101,7 @@ defmodule Polo.Client do
     response
     |> change_response(attrs)
     |> Ecto.Changeset.apply_action(:create)
+    |> IO.inspect()
   end
 
   @doc """
