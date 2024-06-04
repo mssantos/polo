@@ -16,6 +16,11 @@
           name: "tab",
           value: "response_preview",
           label: "Preview"
+        },
+        %{
+          name: "tab",
+          value: "response_headers",
+          label: "Headers"
         }
       ]}
     />
@@ -39,6 +44,7 @@
 
         <%= if response do %>
           <div
+            :if={@tab == "response_preview"}
             id="response-editor"
             class="c-response__editor"
             phx-hook="ResponseEditor"
@@ -51,6 +57,12 @@
             >
             </div>
           </div>
+
+          <ul :if={@tab == "response_headers"} class="c-response__headers">
+            <li :for={header <- response.headers}>
+              <b><%= header.name %></b>: <%= header.value %>
+            </li>
+          </ul>
         <% else %>
           <div class="c-placeholder">
             <blockquote class="c-blockquote" cite="https://fantasia.fandom.com/pt/wiki/Pol%C3%B4">
