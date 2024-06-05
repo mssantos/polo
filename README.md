@@ -1,8 +1,8 @@
 # Polo
 
-Minimalist REST client for JSON APIs. Run it directly from your browser!
+Minimalist REST client for JSON APIs. Run it from your browser!
 
-https://github.com/readyforproduction/polo/assets/453736/dddd0b9b-85df-4d2a-8e74-2540c90fff09
+https://github.com/readyforproduction/polo/assets/453736/bfc10c27-018e-4bb4-b4ac-331b173debdf
 
 ## How to Use
 
