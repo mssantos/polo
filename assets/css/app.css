@@ -19,6 +19,7 @@
 @import "c/response.css" layer(components);
 @import "c/blockquote.css" layer(components);
 @import "c/placeholder.css" layer(components);
+@import "c/curl.css" layer(components);
 
 /* This file is for your main application CSS */
 html {

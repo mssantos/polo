@@ -1,0 +1,39 @@
+.c-curl {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: 1fr auto;
+  justify-content: space-between;
+  background-color: #F7F7F7;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  line-height: 2;
+  font-weight: 500;
+
+  button {
+    &:not(:disabled) {
+      cursor: copy;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    width: 100%;
+
+    &:hover {
+      background-color: #CCCCCC20;
+    }
+
+    &:active {
+      opacity: 0.6;
+    }
+  }
+
+  .c-curl__output {
+    align-items: center;
+    font-weight: 400;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}

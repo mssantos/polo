@@ -77,6 +77,36 @@ Hooks.ResponseEditor = {
   },
 }
 
+Hooks.ToCurl = {
+  updated() {
+    this.button = this.el.querySelector("button")
+    this.button.addEventListener("click", this.handleButtonClick.bind(this))
+  },
+
+  destroyed() {
+    if (this.button) {
+      this.button.removeEventListener("click", this.handleButtonClick.bind(this))
+      this.button = null
+    }
+  },
+
+  handleButtonClick() {
+    const output = this.el.querySelector("code")
+
+    if (output) {
+      this.writeToClipboard(output.textContent.trim())
+    }
+  },
+
+  async writeToClipboard(value) {
+    try {
+      await navigator.clipboard.writeText(value)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, { hooks: Hooks, params: { _csrf_token: csrfToken } })
 

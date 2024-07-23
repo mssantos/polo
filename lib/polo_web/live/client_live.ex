@@ -37,6 +37,7 @@ defmodule PoloWeb.ClientLive do
     |> assign_request_methods()
     |> assign_collection_selected()
     |> assign_request_selected(request.id)
+    |> assign_curl(nil)
     |> clear_response()
   end
 
@@ -80,8 +81,18 @@ defmodule PoloWeb.ClientLive do
     assign(socket, :response, response)
   end
 
+  def assign_curl(socket, curl) do
+    assign(socket, :curl, curl)
+  end
+
   def handle_event("cancel", _params, socket) do
     {:noreply, cancel_async(socket, :send_request)}
+  end
+
+  def handle_event("to_curl", _params, socket) do
+    result = Client.to_curl(socket.assigns.request)
+
+    {:noreply, assign_curl(socket, result)}
   end
 
   def handle_event("not_implemented", _params, socket) do
@@ -101,7 +112,10 @@ defmodule PoloWeb.ClientLive do
   end
 
   def handle_async(:request, {:ok, {:ok, response}}, socket) do
-    socket = assign_response(socket, AsyncResult.ok(socket.assigns.response, response))
+    socket =
+      socket
+      |> assign_response(AsyncResult.ok(socket.assigns.response, response))
+      |> assign_curl(Client.to_curl(socket.assigns.request))
 
     {:noreply, socket}
   end

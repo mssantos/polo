@@ -101,7 +101,6 @@ defmodule Polo.Client do
     response
     |> change_response(attrs)
     |> Ecto.Changeset.apply_action(:create)
-    |> IO.inspect()
   end
 
   @doc """
@@ -115,4 +114,53 @@ defmodule Polo.Client do
   """
   @spec reset_request_embed(Ecto.Changeset.t(), atom()) :: Ecto.Changeset.t()
   defdelegate reset_request_embed(changeset, embed), to: Request, as: :reset_embed
+
+  @spec to_curl(Request.t()) :: binary()
+  def to_curl(%Request{} = request) do
+    ["curl"]
+    |> append_parameters(request)
+    |> append_headers(request)
+    |> append_method(request)
+    |> append_body(request)
+    |> append_url(request)
+    |> Enum.reverse()
+    |> Enum.join(" ")
+  end
+
+  defp append_headers(commands, %Request{headers: [%Polo.Client.Header{name: nil, value: nil}]}), do: commands
+
+  defp append_headers(commands, %Request{headers: headers} = _request) do
+    [
+      headers
+      |> Enum.filter(fn header -> header.name != nil end)
+      |> Enum.filter(fn header -> header.name != "" end)
+      |> Enum.filter(fn header -> header.value != nil end)
+      |> Enum.filter(fn header -> header.value != "" end)
+      |> Enum.map(fn header -> "-H \"#{header.name}: #{header.value}\"" end)
+      |> Enum.join(" ") | commands
+    ]
+  end
+
+  defp append_parameters(commands, %Request{parameters: [%Polo.Client.Parameter{name: nil, value: nil}]}), do: commands
+
+  defp append_parameters(commands, %Request{parameters: parameters} = _request) do
+    parser = fn parameters ->
+      parameters
+      |> Enum.filter(fn parameter -> parameter.name != nil end)
+      |> Enum.filter(fn parameter -> parameter.name != "" end)
+      |> Enum.filter(fn parameter -> parameter.value != nil end)
+      |> Enum.filter(fn parameter -> parameter.value != "" end)
+      |> Enum.map(fn parameter -> "-d \"#{parameter.name}=#{parameter.value}\"" end)
+      |> Enum.join(" ")
+    end
+
+    ["-G #{parser.(parameters)}" | commands]
+  end
+
+  defp append_body(commands, %Request{body: body} = _request) when body == nil or body.content == "{}", do: commands
+  defp append_body(commands, %Request{body: body} = _request), do: ["-d '#{body.content}'" | commands]
+
+  defp append_url(commands, %Request{url: url} = _request), do: [url | commands]
+
+  defp append_method(commands, %Request{method: method} = _request), do: [Request.method_for_curl(method) | commands]
 end
