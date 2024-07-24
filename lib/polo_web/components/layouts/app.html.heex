@@ -2,6 +2,13 @@
 
 <div class="l-full-page l-page-shell">
   <aside class="c-sidebar">
+    <.link
+      class="c-sidebar__button"
+      navigate={"/"}
+    >
+      <.icon name="hero-document" />
+      <span>New Request</span>
+    </.link>
     <%= for {collection, requests} <- @collections do %>
       <strong class={["c-sidebar__heading", @collection_selected == collection && "is-selected"]}>
         <%= collection %>

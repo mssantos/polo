@@ -124,4 +124,11 @@ defmodule Polo.Client.Request do
   end
 
   defp maybe_add_default_parameter(changeset, _request), do: changeset
+
+  def method_for_curl(:head), do: "-I"
+  def method_for_curl(:get), do: "-X GET"
+  def method_for_curl(:post), do: "-X POST"
+  def method_for_curl(:put), do: "-X PUT"
+  def method_for_curl(:patch), do: "-X PATCH"
+  def method_for_curl(:delete), do: "-X DELETE"
 end

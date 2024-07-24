@@ -227,17 +227,11 @@
     </section>
 
     <footer class="c-request__footer">
-      <PoloWeb.ClientLive.Components.menu
-        custom_class="c-request__actions"
-        actions={[
-          %{
-            name: "request_actions",
-            value: "copy_to_curl",
-            label: "Copy to cURL",
-            click_event: "not_implemented"
-          }
-        ]}
-      />
+      <div class="c-curl" id="copy-to-curl" phx-hook="ToCurl">
+        <code :if={@curl} class="c-curl__output"><%= @curl %></code>
+        <span :if={!@curl}>Send the request to get the <code>curl</code> command.</span>
+        <button type="button" disabled={!@curl}><.icon name="hero-clipboard-document" /> Copy</button>
+      </div>
     </footer>
   </.form>
 </article>

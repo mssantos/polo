@@ -22,9 +22,12 @@
     letter-spacing: -0.025rem;
   }
 
-  .c-sidebar__link {
+  :is(.c-sidebar__link, .c-sidebar__button) {
     font-size: 0.875rem;
     line-height: 1.7;
+  }
+
+  .c-sidebar__link {
     padding-inline-start: 1rem;
 
     &.is-selected {
@@ -36,4 +39,19 @@
     }
   }
 
+  .c-sidebar__button {
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    gap: .25rem;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #6ee7b7;
+    margin-block-end: 1rem;
+    color: #374151;
+    font-weight: 500;
+    width: 100%;
+    padding: .5rem 1rem;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
 }
