@@ -1,4 +1,4 @@
-<article class="c-response" data-component="response">
+<article class="c-response" data-component="response" phx-hook="Response" id="response-block">
   <.form
     for={%{}}
     id="response-form"
@@ -76,23 +76,10 @@
     </section>
 
     <footer class="c-response__footer">
-      <PoloWeb.ClientLive.Components.menu
-        custom_class="c-response__actions"
-        actions={[
-          %{
-            name: "response_actions",
-            value: "copy_to_clipboard",
-            label: "Copy to Clipboard",
-            click_event: "not_implemented"
-          },
-          %{
-            name: "response_actions",
-            value: "download",
-            label: "Download",
-            click_event: "not_implemented"
-          }
-        ]}
-      />
+      <div class="c-response__actions" id="response-actions">
+        <button id="copy-response" type="button" disabled={!@response.result}><.icon name="hero-clipboard-document" /> Copy</button>
+        <a href="#" id="download-response" download="response.json"><.icon name="hero-arrow-down-on-square" /> Download</a>
+      </div>
     </footer>
   </.form>
 </article>
