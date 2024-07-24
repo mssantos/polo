@@ -120,15 +120,12 @@ Hooks.Response = {
     }
 
     const output = this.el.querySelector("#response-editor")?.dataset?.content
-    this.downloadButton = this.actions.querySelector("#download-response")
+    const downloadButton = this.actions.querySelector("#download-response")
 
-    if (this.downloadButton && output) {
+    if (output) {
       const blob = new Blob([output], { type: "application/json" })
       this.url = URL.createObjectURL(blob)
-
-      if (this.downloadButton) {
-        this.downloadButton.href = this.url
-      }
+      downloadButton?.href = this.url
     }
   },
 
