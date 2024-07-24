@@ -107,6 +107,55 @@ Hooks.ToCurl = {
   }
 }
 
+Hooks.Response = {
+  mounted() {
+    this.actions = this.el.querySelector("#response-actions")
+    this.copyButton = this.actions.querySelector("#copy-response")
+    this.copyButton.addEventListener("click", this.handleButtonClick.bind(this))
+  },
+
+  updated() {
+    if (this.url) {
+      URL.revokeObjectURL(this.url)
+    }
+
+    const output = this.el.querySelector("#response-editor")?.dataset?.content
+    this.downloadButton = this.actions.querySelector("#download-response")
+
+    if (this.downloadButton && output) {
+      const blob = new Blob([output], { type: "application/json" })
+      this.url = URL.createObjectURL(blob)
+
+      if (this.downloadButton) {
+        this.downloadButton.href = this.url
+      }
+    }
+  },
+
+  destroyed() {
+    if (this.copyButton) {
+      this.copyButton.removeEventListener("click", this.handleButtonClick.bind(this))
+      this.copyButton = null
+    }
+  },
+
+  handleButtonClick() {
+    const output = this.el.querySelector("#response-editor").dataset.content
+
+    if (output) {
+      this.writeToClipboard(output)
+    }
+  },
+
+  async writeToClipboard(value) {
+    try {
+      await navigator.clipboard.writeText(value)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, { hooks: Hooks, params: { _csrf_token: csrfToken } })
 
