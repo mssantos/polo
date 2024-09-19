@@ -9,7 +9,7 @@ https://github.com/readyforproduction/polo/assets/453736/bfc10c27-018e-4bb4-b4ac
 Please install Docker, then follow these steps:
 
 ```bash
-> git clone git@github.com:readyforproduction/polo.git
+> git clone git@github.com:mssantos/polo.git
 > cd polo
 > docker compose up --build
 ```
